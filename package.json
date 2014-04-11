@@ -1,0 +1,11 @@
+{
+  "name": "UWCenterStack-TripDB",
+  "version": "0.0.0",
+  "description": "Module for recording and analyzing trip information.",
+  "private": true,
+  "main": "index.js",
+  "author": "Nicholas Clawson",
+  "dependencies": {
+    "mongoose": "~3.8.8"
+  }
+}
