@@ -3,11 +3,14 @@ var db = require('../index.js');
 db('mongodb://127.0.0.1', function(err, manager) {
     if (err) throw err;
 
-    manager.createUser({
+    // create a new user
+    manager.newUser({
         firstName: "Nicholas",
         lastName: "Clawson"
     }, function(err, me) {
-        manager.addTrip(me, {
+
+        // add a trip to the user
+        me.newTrip({
             start: {
                 time: Date.now(),
                 lat: 0.0,
@@ -19,7 +22,11 @@ db('mongodb://127.0.0.1', function(err, manager) {
                 long: -1.0
             }
         }, function(err, trip) {
-            me.calculate();
+
+            // update calculations
+            me.calculate(function() {
+                me.remove();
+            });
         });
     });
 });

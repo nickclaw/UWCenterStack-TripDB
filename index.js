@@ -1,5 +1,5 @@
 var mongoose = require('mongoose'),
-    Manager = require('./lib/Manager.js');
+    manager = require('./lib/Manager.js');
 
 module.exports = function(url, callback) {
 
@@ -11,7 +11,7 @@ module.exports = function(url, callback) {
     });
     mongoose.connection
         .on('open', function(err) {
-            callback(null, new Manager());
+            callback(null, manager);
         })
         .on('err', callback.bind(null));
 }
