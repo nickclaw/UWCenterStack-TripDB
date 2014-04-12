@@ -1,15 +1,17 @@
-require('./lib/Manager.js')
+var mongoose = require('mongoose'),
+    Manager = require('./lib/Manager.js');
 
-module.exports = function(mongoose, callback) {
-    if (!mongoose) {
-        throw "Missing argument 1";
-    }
+module.exports = function(url, callback) {
 
-    mongoose.db.on('err', function(err) {
+    // connect to db
+    mongoose.connect(url);
+
+    mongoose.connection.on('err', function(err) {
         callback(err, null);
     });
-    mongoose.db.on('open', function() {
-        manager = new Manager();
-        callback(null, manager);
-    });
+    mongoose.connection
+        .on('open', function(err) {
+            callback(null, new Manager());
+        })
+        .on('err', callback.bind(null));
 }

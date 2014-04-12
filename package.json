@@ -4,6 +4,7 @@
   "description": "Module for recording and analyzing trip information.",
   "private": true,
   "main": "index.js",
+  "test": "./test/app.js",
   "author": "Nicholas Clawson",
   "dependencies": {
     "mongoose": "~3.8.8"
