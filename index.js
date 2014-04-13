@@ -1,7 +1,19 @@
 var mongoose = require('mongoose'),
-    manager = require('./lib/Manager.js');
+    Manager = require('./lib/Manager.js');
 
-module.exports = function(url, callback) {
+
+function Db() {};
+
+/**
+ *
+ *
+ */
+Db.prototype.connect = function(url, options, callback) {
+    // make options optional
+    if (typeof options === 'function') {
+        callback = options;
+        options = {}
+    }
 
     // connect to db
     mongoose.connect(url);
@@ -11,7 +23,10 @@ module.exports = function(url, callback) {
     });
     mongoose.connection
         .on('open', function(err) {
-            callback(null, manager);
+            callback(null, new Manager(options));
         })
         .on('err', callback.bind(null));
 }
+
+
+module.exports = new Db();

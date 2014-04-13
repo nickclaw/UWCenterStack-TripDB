@@ -1,6 +1,6 @@
 var db = require('../index.js');
 
-db('mongodb://127.0.0.1', function(err, manager) {
+db.connect('mongodb://127.0.0.1', function(err, manager) {
     if (err) throw err;
 
     // create a new user
@@ -23,10 +23,29 @@ db('mongodb://127.0.0.1', function(err, manager) {
             }
         }, function(err, trip) {
 
-            // update calculations
-            me.calculate(function() {
-                me.remove();
+            addDataPoints(trip, function() {
+                me.calculate(function() {
+                    me.remove();
+                })
             });
         });
     });
 });
+
+
+function addDataPoints(trip, callback) {
+    var count = 0,
+        interval = setInterval(function() {
+            trip.newPoint({
+                speed: Math.random(),
+                lat: Math.random(),
+                long: Math.random()
+            }, function() {
+                console.log(count);
+                if (++count > 100) {
+                    clearInterval(interval);
+                    callback();
+                }
+            });
+        }, 50);
+}
